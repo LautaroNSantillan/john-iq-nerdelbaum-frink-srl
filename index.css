@@ -1,0 +1,19 @@
+#navbar {
+    background-color: #333;
+    color: #000000;
+    position: relative;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    height: 100px;
+  }
+.sticky {
+    position: fixed!important;
+    top: 0;
+    width: 100%;
+  }
+  .splash{
+    height: 100vh;
+    border-color: aquamarine;
+  }
