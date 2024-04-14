@@ -1,3 +1,15 @@
+body{
+  background-color: #2f64d6!important;
+}
+section{
+  background-color:#ff81c1;
+  padding:2%;
+  margin: 2%;
+}
+p{
+ color:#2f64d6!important;
+ font-weight: bolder;
+}
 #navbar {
     background-color: #333;
     color: #000000;
@@ -17,3 +29,28 @@
     height: 100vh;
     border-color: aquamarine;
   }
+
+  .txt-una-linea{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+  .padding-40{
+    padding-top: 40%;
+  }
+  .padding-10{
+    padding-top: 10%;
+  }
+
+  .nav-item {
+    position: relative;
+}
+
+.dropdown-menu {
+    position: relative !important;
+    top: 100%; /* or adjust as needed */
+    left: 0;
+}
+#navbarSupportedContent{
+  background-color: grey;
+}
