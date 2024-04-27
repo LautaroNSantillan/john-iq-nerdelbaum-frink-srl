@@ -1,0 +1,105 @@
+{margin=0
+padding=0
+box-sizing:border-box;
+}
+.body{
+    
+      font-family: "Jersey 25", sans-serif;
+      font-weight: 400;
+      font-style: normal;
+      background: #F5F5F5;
+    }
+    
+ .pie{background: #EBE3D5;}
+img{
+    width: 350px;
+}
+.logo{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.span{
+  font-size: 100px;
+}
+.fb{
+  background: rgb(0, 179, 255);
+  padding: 8px;
+  border-radius: 50px;
+  color: white;
+}
+.X{
+  background: black;
+  padding: 8px;
+  border-radius: 50px;
+  color: white;
+}
+.in{
+  background: rgb(230, 34, 34);
+  padding: 8px;
+  border-radius: 50px;
+  color: white;
+}
+.li{
+  background: rgb(8, 88, 224);
+  padding: 8px;
+  border-radius: 50px;
+  color: white;
+}
+.yt{
+  background: red;
+  padding: 8px;
+  border-radius: 50px;
+  color: white;
+}
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+}
+.section{ 
+  display: flex;
+  justify-content: space-evenly;
+  gap: 20px;
+}
+.section div{
+  display: flex;
+  flex-direction: column;
+}
+div h2{
+  color:black
+  padding: 0px 0;
+}
+a{
+  text-decoration: none;
+  color: rgba(0, 0, 0, 0.737);
+  padding: 5px;
+}
+form{
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+input{
+  padding: 10px;
+  border-radius: 5px;
+  border: 2px solid black;
+  padding: 10px 20px;
+}
+button{
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.968);
+  padding: 10px 20px;
+  background: rgba(0, 0, 0, 0.626);
+  color: white;
+  font-size: 18px;
+}
+.derechos{
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  background: #B0A695;
+}
+
