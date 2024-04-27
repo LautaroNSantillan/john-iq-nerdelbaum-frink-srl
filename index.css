@@ -29,18 +29,19 @@ h1,h2,h3,h4,h5,h6{
 #navbar {
   position: relative;
   width: 100%;
-  height: 10vh!important;
+  height: 10vh;
   top: 0;
   left: 0;
   z-index: 1000;
-  height: 100px;
   padding: 0!important;
 }
 #carouselSplash img{
   width: 100%;
   height: 100%;
 }
-
+.pt-10vh{
+  padding-top: 10vh;
+}
 .vw-50{
   width: 50vw;
 }
@@ -51,9 +52,10 @@ h1,h2,h3,h4,h5,h6{
   height: 90vh!important;
 }
 .sticky {
-  position: fixed !important;
+  position: fixed!important;
   top: 0;
   width: 100%;
+  height: 7vh!important;
 }
 .splash {
   position: absolute;
@@ -79,8 +81,11 @@ h1,h2,h3,h4,h5,h6{
 .nav-item {
   position: relative;
 }
-.txt-crema1{
+.txt-crema-1{
   color: #F2EFE5!important;
+}
+.azul-navy{
+  color: #102C57;
 }
 .dropdown-menu {
   position: relative !important;
@@ -90,6 +95,15 @@ h1,h2,h3,h4,h5,h6{
 .mi-navbar {
   background-color: #DAC0A3!important;
   font-size: 1vw;
+}
+.bg-azul-2{
+  background-color: #102c57d0;
+}
+.bg-azul-3{
+  background-color: #102c57;
+}
+.gris-1{
+  color: #B4B4B8;
 }
 .mi-navbar img{
   width: 5vw;
