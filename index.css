@@ -23,15 +23,32 @@ h1,h2,h3,h4,h5,h6{
   font-weight: 400;
   font-style: normal;
 }
+#splash{
+  height: 90vh;
+}
 #navbar {
-  background-color: #333;
-  color: #000000;
   position: relative;
   width: 100%;
+  height: 10vh!important;
   top: 0;
   left: 0;
   z-index: 1000;
   height: 100px;
+  padding: 0!important;
+}
+#carouselSplash img{
+  width: 100%;
+  height: 100%;
+}
+
+.vw-50{
+  width: 50vw;
+}
+.vh-50{
+  height: 50vh;
+}
+.vh-90{
+  height: 90vh!important;
 }
 .sticky {
   position: fixed !important;
@@ -40,11 +57,11 @@ h1,h2,h3,h4,h5,h6{
 }
 .splash {
   position: absolute;
-  height: 100vh;
-  border-color: aquamarine;
+  height: 50vh;
   top: 0;
   left: 0;
   z-index: 99;
+  background-color: #102c57a8;
 }
 
 .txt-una-linea {
@@ -67,12 +84,29 @@ h1,h2,h3,h4,h5,h6{
 }
 .dropdown-menu {
   position: relative !important;
-  top: 100%; /* or adjust as needed */
+  top: 100%;
   left: 0;
 }
-#navbarSupportedContent {
-  background-color: grey;
+.mi-navbar {
+  background-color: #DAC0A3!important;
+  font-size: 1vw;
 }
+.mi-navbar img{
+  width: 5vw;
+}
+.mi-navbar.container-fluid{
+  padding: 0, 10px, 0;
+  background-color: #DAC0A3;
+}
+.mi-navbar li{
+  padding: 10px;
+}
+@media (min-width: 2560px){
+  .mi-navbar img{
+    width: 3vw;
+  }
+}
+
 /* JERSEY 15-25 */
 .jersey-25-regular {
   font-family: "Jersey 25", sans-serif;
