@@ -21,8 +21,9 @@ def login():
         user = User(0, request.form['logemail'], request.form['logpass'])
         logged_user= ModelUser.login(db, user)
         if logged_user != None:
+            print(logged_user.password)
             if logged_user.password:
-                return redirect(url_for('home'))
+                return redirect(url_for('index'))
             else:
                 flash("Contraseña incorrecta")   
                 return render_template('auth/login.html')
