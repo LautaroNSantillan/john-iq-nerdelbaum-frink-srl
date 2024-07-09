@@ -3,6 +3,8 @@ from flask_mysqldb import MySQL
 from flask_login import LoginManager, login_user, logout_user, login_required
 from flask_wtf.csrf import CSRFProtect
 from config import config
+from datetime import datetime
+
 import re
 
 from models.ModelUser import ModelUser
@@ -15,8 +17,13 @@ login_manager_app=LoginManager(app)
 @login_manager_app.user_loader
 def load_user(id):
     return ModelUser.get_by_id(db, id)
+
 csrf = CSRFProtect()
 db = MySQL(app)
+
+@app.context_processor
+def inject_year():
+    return {'yearnow': datetime.now().year}
 
 @app.route("/")
 @app.route("/home")
