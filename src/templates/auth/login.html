@@ -6,26 +6,56 @@
 {% block body %}
 
 
-<a href="https://front.codes/" class="logo" target="_blank">
-    <img src="https://assets.codepen.io/1462889/fcy.png" alt="">
-</a>
 
 <div class="section">
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% else %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith  %}
     <div class="container" action="/login" method="POST">
         <div class="row full-height justify-content-center">
             <div class="col-12 text-center align-self-center py-5">
                 <div class="section pb-5 pt-5 pt-sm-2 text-center">
                     <h6 class="mb-0 pb-3"><span>Log In </span><span>Sign Up</span></h6>
-                      <input class="checkbox" type="checkbox" id="reg-log" name="reg-log"/>
-                      <label for="reg-log"></label>
+                    {% if errbool %}
+                       
+                                <input class="checkbox" type="checkbox" id="reg-log" name="reg-log" checked>
+                           
+                    {% else %}
+                        <input class="checkbox" type="checkbox" id="reg-log" name="reg-log">
+                    {% endif %}                   <label for="reg-log"></label>
                     <div class="card-3d-wrap mx-auto">
                         <div class="card-3d-wrapper">
                             <form class="card-front" action="/login" method="post">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Log In</h4>
                                         <div class="form-group">
-                                            <input type="text" name="logemail" class="form-style" placeholder="Your Email" id="logemail" autocomplete="off">
+                                            <input type="text" name="logemail" class="form-style" placeholder="Your Username" id="logemail" autocomplete="off">
                                             <i class="input-icon uil uil-at"></i>
                                         </div>	
                                         <div class="form-group mt-2">
@@ -37,16 +67,17 @@
                                       </div>
                                   </div>
                               </form>
-                            <form class="card-back" action="/login" method="post">
+                            <form class="card-back" action="/register" method="post">
+                                <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
                                 <div class="center-wrap">
                                     <div class="section text-center">
                                         <h4 class="mb-4 pb-3">Sign Up</h4>
                                         <div class="form-group">
-                                            <input type="text" name="regname" class="form-style" placeholder="Your Full Name" id="regname" autocomplete="off">
+                                            <input type="text" name="regname" class="form-style" placeholder="Your Full Name" id="regname" autocomplete="off" value="{{ regname }}">
                                             <i class="input-icon uil uil-user"></i>
                                         </div>	
                                         <div class="form-group mt-2">
-                                            <input type="email" name="regemail" class="form-style" placeholder="Your Email" id="regemail" autocomplete="off">
+                                            <input type="text" name="regfullname" class="form-style" placeholder="Your Full Name" id="regfullname" autocomplete="off" value="{{ regfullname }}">
                                             <i class="input-icon uil uil-at"></i>
                                         </div>	
                                         <div class="form-group mt-2">

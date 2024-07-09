@@ -1,5 +1,6 @@
 <nav class="mi-navbar navbar navbar-expand-lg" id="navbar">
     <div class="container-fluid">
+      <h1>Bienvenido, {{current_user.fullname}}</h1>
       <a class="navbar-brand" href="#"><img src="./imgs/logonav.png" alt="John Iq Nerdelbaum Home" /></a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +32,9 @@
             <a class="nav-link d-flex justify-content-center align-items-center" href="#"><span class="material-symbols-outlined fs-2">
              person_add</span>Registrarse</a>
           </li>
+        </ul>
+        <ul>
+          <a href="{{url_for('logout')}}" class="btn btn-secondary"></a>
         </ul>
       </div>
     </div>
