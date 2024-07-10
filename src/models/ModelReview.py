@@ -38,7 +38,7 @@ class ModelReview:
                 return False
 
             sql += ", ".join(updates)
-            sql += " WHERE review_id = %s AND user_id = %s"
+            sql += " WHERE review_id = %s AND user_id = %s AND disabled = FALSE"
             params.extend([review_id, current_user.id])
 
             cursor.execute(sql, params)
@@ -49,12 +49,13 @@ class ModelReview:
             print(f"Error updating review: {ex}")
             db.connection.rollback()
             return False
+
         
     @classmethod
     def get_review_by_user_id(cls, db, user_id):
         try:
             cursor = db.connection.cursor()
-            sql = "SELECT * FROM review WHERE user_id = %s"
+            sql = "SELECT * FROM review WHERE user_id = %s AND disabled = FALSE"
             cursor.execute(sql, (user_id,))
             review = cursor.fetchone()
             cursor.close()
@@ -64,3 +65,18 @@ class ModelReview:
         except Exception as ex:
             print(f"Error fetching review: {ex}")
             return None
+        
+
+    @classmethod
+    def disable_review(cls, db, review_id):
+        try:
+            cursor = db.connection.cursor()
+            sql = "UPDATE review SET disabled = TRUE WHERE review_id = %s AND user_id = %s"
+            cursor.execute(sql, (review_id, current_user.id))
+            db.connection.commit()
+            cursor.close()
+            return True
+        except Exception as ex:
+            print(f"Error disabling review: {ex}")
+            db.connection.rollback()
+            return False

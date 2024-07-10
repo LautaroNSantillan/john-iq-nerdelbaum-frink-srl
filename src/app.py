@@ -127,6 +127,18 @@ def update_review():
         review = ModelReview.get_review_by_user_id(db, current_user.id)
         return render_template('site_reviews/update_review.html', review=review)
 
+
+@app.route('/delete_review', methods=['POST'])
+@login_required
+def disable_review():
+    review_id = request.form.get('review_id')
+    
+    if ModelReview.disable_review(db, review_id):
+        flash('Review disabled successfully', 'success')
+    else:
+        flash('Failed to disable review', 'error')
+    
+    return redirect(url_for('review'))
 #---------------------------PROFILE
 @app.route('/profile/<int:id>')
 def profile(id):
