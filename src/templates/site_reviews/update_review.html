@@ -1,0 +1,52 @@
+{% extends 'base.html' %} 
+
+{% block customcss %}
+{% endblock %}
+{% block title %} Update Review {% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% else %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith  %}
+<form action="/update_review" method="post">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+  <div class="form-group">
+      <label for="rating">Rating</label>
+      <select class="form-control" id="rating" name="new_rating" value={{review.rating}}>
+        {% for i in range(1, 6) %}
+        <option value="{{ i }}" {% if review.rating == i %}selected{% endif %}>{{ i }}</option>
+    {% endfor %}
+      </select>
+  </div>
+
+  <div class="form-group">
+      <label for="comment">Comment</label>
+      <textarea class="form-control" id="new_comment" name="new_comment" rows="5">{{ review.review_text }}</textarea>  </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+{% endblock %}

@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, flash, redirect, url_for
 from flask_mysqldb import MySQL
-from flask_login import LoginManager, login_user, logout_user, login_required
+from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from flask_wtf.csrf import CSRFProtect
 from config import config
 from datetime import datetime
@@ -8,8 +8,9 @@ from datetime import datetime
 import re
 
 from models.ModelUser import ModelUser
-
 from models.entities.User import User
+from models.ModelReview import ModelReview
+from models.entities.Review import Review
 
 app = Flask(__name__)
 login_manager_app=LoginManager(app)
@@ -38,15 +39,10 @@ def register():
         password = request.form['regpass']
 
         errmsg = []
-         # Validation for username being shorter than 20 characters
         if len(username) > 20:
             errmsg.append('Username must be shorter than 20 characters.')
-
-        # Validation for fullname being shorter than 50 characters
         if len(fullname) > 50:
             errmsg.append('Full name must be shorter than 50 characters.')
-
-        # Validation for password including at least one uppercase letter and one number
         if not re.search(r'[A-Z]', password):
             errmsg.append('Password must include at least one uppercase letter.')
         if not re.search(r'\d', password):
@@ -54,15 +50,11 @@ def register():
 
         if errmsg:
             flash('\n'.join(errmsg), 'error')
-            # Preserve form data by passing it back to the template
             return render_template('auth/login.html', errbool=True,regname=username, regfullname=fullname)
            
+        new_user = User(None, username, password, fullname)  
 
-        # Create a new user instance
-        new_user = User(None, username, password, fullname)  # Adjust according to your User class
-
-        # Example: save the new user to the database using ModelUser
-        if ModelUser.register(db, new_user):  # Adjust ModelUser method according to your implementation
+        if ModelUser.register(db, new_user): 
             flash('Registration successful. Please log in.', 'success')
             return redirect(url_for('login'))
         else:
@@ -93,12 +85,58 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('login'))
-
-@app.route('/create_comment')
+#---------------------------REVIEWS
+@app.route('/review')
 @login_required
-def create_comment():
-    return "<h1>CREATE COMENt</h1>"
+def review():
+    user_review = ModelReview.get_review_by_user_id(db, current_user.id)
+    return render_template('site_reviews/new_review.html', review=user_review)
 
+
+@app.route('/submit_review', methods=['POST'])
+@login_required
+def submit_review():
+    if request.method == 'POST':
+        review_text = request.form.get('comment')
+        rating = request.form.get('rating')
+        
+        new_review = Review.from_form_data(review_text, rating)
+        
+        if ModelReview.create_review(db, new_review):
+            flash('Review submitted successfully', 'success')
+            return redirect(url_for('review'))
+        else:
+            flash('Failed to submit review', 'error')
+            return redirect(url_for('review'))
+
+
+@app.route('/update_review', methods=['GET','POST'])
+@login_required
+def update_review():
+    if request.method == 'POST':
+
+        review_id = request.form.get('review_id')
+        new_review_text = request.form.get('new_comment')
+        new_rating = request.form.get('new_rating')
+        
+        if ModelReview.update_review(db, review_id, new_review_text, new_rating):
+            flash('Review updated successfully', 'success')
+        else:
+            flash('Failed to update review', 'error')
+    else:
+        review = ModelReview.get_review_by_user_id(db, current_user.id)
+        return render_template('site_reviews/update_review.html', review=review)
+
+#---------------------------PROFILE
+@app.route('/profile/<int:id>')
+def profile(id):
+    user = ModelUser.get_by_id(db, id)
+    if user:
+        review = ModelReview.get_review_by_user_id(db, id)
+        return render_template('profile/profile.html', fullname=user.fullname, username=user.username, review=review)
+    else:
+        return "User not found", 404
+#---------------------------ERROR HANDLERS
 def status_401(err):
     return redirect(url_for('login'))
 
