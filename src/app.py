@@ -149,14 +149,24 @@ def delete_review():
     return redirect(url_for('review'))
 
 #---------------------------PROFILE
-@app.route('/profile/<int:id>')
+@app.route('/my_profile')
 def profile(id):
-    user = ModelUser.get_by_id(db, id)
+    user = ModelUser.get_by_id(db, current_user.id) 
     if user:
         review = ModelReview.get_review_by_user_id(db, id)
-        return render_template('profile/profile.html', fullname=user.fullname, username=user.username, review=review)
+        return render_template('profile/profile.html', user=user, review=review)
     else:
         return "User not found", 404
+    
+@app.route('/user/<string:username>')
+def visit_user(username):
+    user = ModelUser.get_by_username(db, username)
+    if user:
+        review = ModelReview.get_review_by_user_id(db, user.id)
+        return render_template('profile/user.html', user=user, review=review)
+    else:
+        return "User not found", 404
+    
     
 
 @app.route('/update_user', methods=['GET', 'POST'])

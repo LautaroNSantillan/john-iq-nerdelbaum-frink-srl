@@ -21,8 +21,22 @@ class ModelUser():
     def get_by_id(self, db, id):
         try:
             cursor=db.connection.cursor()
-            sql = "SELECT id, username, fullname FROM User WHERE id = {}".format(id)
+            sql = "SELECT id, username, fullname, joined_date FROM User WHERE id = {}".format(id)
             cursor.execute(sql)
+            row=cursor.fetchone()
+            if row != None:
+                return User(row[0], row[1], None, row[2] )
+            else:
+                return None   
+        except Exception as ex:
+            raise Exception(ex)
+        
+    @classmethod
+    def get_by_username(self, db, username):
+        try:
+            cursor=db.connection.cursor()
+            sql = "SELECT id, username, fullname, joined_date FROM User WHERE username = %s"
+            cursor.execute(sql, (username,))
             row=cursor.fetchone()
             if row != None:
                 return User(row[0], row[1], None, row[2] )
