@@ -11,6 +11,10 @@ from models.ModelUser import ModelUser
 from models.entities.User import User
 from models.ModelReview import ModelReview
 from models.entities.Review import Review
+from models.ModelCompany import ModelCompany
+from models.entities.Company import Company
+
+
 
 app = Flask(__name__)
 login_manager_app=LoginManager(app)
@@ -26,10 +30,41 @@ db = MySQL(app)
 def inject_year():
     return {'yearnow': datetime.now().year}
 
+@app.context_processor
+def is_user_logged_in():
+    return{'is_logged': current_user.is_authenticated} 
+
 @app.route("/")
 @app.route("/home")
 def index():
-    return render_template('index.html')
+    companies = ModelCompany.get_all_companies(db)
+    return render_template('index.html', companies=companies)
+
+@app.route('/company', methods=['GET', 'POST'])
+@login_required
+def create_company():
+    if current_user.role != 'ADMIN':
+        flash('Unauthorized access', 'error')
+        return redirect('/')
+    
+    if request.method == 'POST':
+        name = request.form['name']
+        img = request.form['img']
+        location = request.form['location']
+        new_company = Company(name,img,location, None)
+
+        try:
+            if ModelCompany.create_company(db, new_company):  
+                flash('Company created successfully!', 'success')
+                return redirect('/')  # Redirect to homepage or appropriate page
+            else:
+                flash('Error creating company', 'danger')
+                return render_template('auth/companies.html')  # Render form again on failure
+        except Exception as ex:
+            flash(f'Error creating company: {str(ex)}', 'danger')
+            return render_template('auth/companies.html')  # Render form again on exception
+
+    return render_template('auth/companies.html')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -150,10 +185,10 @@ def delete_review():
 
 #---------------------------PROFILE
 @app.route('/my_profile')
-def profile(id):
+def profile():
     user = ModelUser.get_by_id(db, current_user.id) 
     if user:
-        review = ModelReview.get_review_by_user_id(db, id)
+        review = ModelReview.get_review_by_user_id(db, current_user.id)
         return render_template('profile/profile.html', user=user, review=review)
     else:
         return "User not found", 404
@@ -180,11 +215,16 @@ def update_user():
         
         if success:
             flash(message, 'success')
-            return redirect(url_for('profile/profile'))
+            return redirect(url_for('profile'))
         else:
             flash(message, 'error')
     
-    return render_template('profile/update_user.html')
+    return render_template('profile/update_profile.html')
+
+#---------------------------CONTACT
+@app.route('/contact', methods=['GET', 'POST'])
+def contact():
+    return render_template('contact/contact.html')
 #---------------------------ERROR HANDLERS
 def status_401(err):
     return redirect(url_for('login'))

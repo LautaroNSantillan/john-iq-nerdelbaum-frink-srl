@@ -21,11 +21,11 @@ class ModelUser():
     def get_by_id(self, db, id):
         try:
             cursor=db.connection.cursor()
-            sql = "SELECT id, username, fullname, joined_date FROM User WHERE id = {}".format(id)
-            cursor.execute(sql)
-            row=cursor.fetchone()
-            if row != None:
-                return User(row[0], row[1], None, row[2] )
+            sql = "SELECT id, username, fullname, joined_date, role FROM user WHERE id = %s"
+            cursor.execute(sql, (id,))
+            row = cursor.fetchone()
+            if row is not None:
+                return User(row[0], row[1], None, row[2], row[3], row[4])
             else:
                 return None   
         except Exception as ex:
@@ -62,14 +62,12 @@ class ModelUser():
         try:
             cursor = db.connection.cursor()
             
-            # Check if the new username already exists
             if new_username:
                 cursor.execute("SELECT * FROM user WHERE username = %s", (new_username,))
                 existing_user = cursor.fetchone()
                 if existing_user:
                     return False, "Username already exists."
 
-            # Build the SQL update statement
             sql = "UPDATE user SET "
             updates = []
             params = []

@@ -1,12 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Poppins:400,500,600,700,800,900");
 
+/* 
+D6EFD8
+80AF81
+508D4E
+1A5319
+*/
+
 body {
   font-family: "Poppins", sans-serif;
   font-weight: 300;
   font-size: 15px;
   line-height: 1.7;
-  color: #c4c3ca;
-  background-color: #1f2029;
+  color: #508D4E;
+  background-color: #1A5319!important;
   overflow-x: hidden;
 }
 a {
@@ -17,7 +24,7 @@ a:hover {
   text-decoration: none;
 }
 .link {
-  color: #c4c3ca;
+  color: #D6EFD8;
 }
 .link:hover {
   color: #ffeba7;
@@ -31,9 +38,12 @@ h4 {
   font-weight: 600;
 }
 h6 span {
+  background-color: #102770;
   padding: 0 20px;
   text-transform: uppercase;
   font-weight: 700;
+  font-size: 2rem!important;
+  color: D6EFD8;
 }
 .section {
   position: relative;
@@ -59,7 +69,7 @@ h6 span {
   padding: 0;
   margin: 10px auto;
   cursor: pointer;
-  background-color: #ffeba7;
+  background-color: #508D4E;
 }
 .checkbox:checked + label:before,
 .checkbox:not(:checked) + label:before {
@@ -68,10 +78,10 @@ h6 span {
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  color: #ffeba7;
+  color: #508D4E;
   background-color: #102770;
   font-family: "unicons";
-  content: "\eb4f";
+  content: "↖";
   z-index: 20;
   top: -10px;
   left: -10px;
@@ -108,7 +118,7 @@ h6 span {
 .card-back {
   width: 100%;
   height: 100%;
-  background-color: #2a2b38;
+  background-color: #80AF81;
   background-image: url("https://s3-us-west-2.amazonaws.com/s.cdpn.io/1462889/pat.svg");
   background-position: bottom center;
   background-repeat: no-repeat;
@@ -159,7 +169,7 @@ h6 span {
   letter-spacing: 0.5px;
   outline: none;
   color: #c4c3ca;
-  background-color: #1f2029;
+  background-color: #1A5319;
   border: none;
   -webkit-transition: all 200ms linear;
   transition: all 200ms linear;

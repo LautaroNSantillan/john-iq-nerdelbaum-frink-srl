@@ -4,7 +4,9 @@
 }
 
 body {
-    background-color: #000
+    background-color: #508D4E!important;
+    display: flex!important;
+    flex-direction: column!important;
 }
 
 .card {
@@ -19,9 +21,6 @@ body {
     transition: all 0.5s
 }
 
-.card:hover .image img {
-    transform: scale(1.5)
-}
 
 .btn {
     height: 140px;
@@ -33,7 +32,10 @@ body {
     font-size: 22px;
     font-weight: bold
 }
-
+.links {
+    text-decoration: none;
+    color: aliceblue;
+  }
 .idd {
     font-size: 14px;
     font-weight: 600

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="icon" type="image/x-icon" href="./imgs/favicon.ico">
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='imgs/favicon.ico') }}">
   {% block customcss %}{% endblock %}
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -18,16 +18,23 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Jersey+25&family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Vollkorn&display=swap"
     rel="stylesheet" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-    <title>{% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  <title>{% block title %}{% endblock %}</title>
 </head>
 
+{% set current_path = request.path %}
+{% set hide_header = current_path == '/' or current_path == '/home' %}
+
+{% if not hide_header %}
+  <header>
+    {% include 'default/navbar.html' %}
+  </header>
+  {% endif %}
 <body class="text-center">
 {% block body %}
 {% endblock %}
-
 {% include 'default/footer.html' %}
 {% block customjs %}{% endblock %}
 {% include 'default/scripts.html' %}

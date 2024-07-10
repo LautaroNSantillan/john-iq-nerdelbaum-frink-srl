@@ -1,0 +1,21 @@
+footer{
+    width: 100%;
+    background-color: #10330f!important;
+    margin-top: auto;
+}
+
+footer p, ul, li {
+    color: #7393B3!important;
+    text-decoration: none!important;
+    list-style-type: none!important;
+}
+
+.g-1{
+    color: #D6EFD8!important;
+  }
+
+.rights{
+    padding: none!important;
+    margin: auto;
+    background-color: #0b240b!important;
+}
