@@ -1,0 +1,37 @@
+{% extends 'base.html' %} 
+
+
+{% block customcss %} 
+<link rel="stylesheet" href={{url_for('static',filename='css/misc.css')}} />
+
+{% endblock %}
+{% block title %} Contacto {% endblock %} 
+{% block body %}
+
+<div class="container mt-5">
+    <h2>Contact Us</h2>
+    <form>
+      <div class="form-group">
+        <label for="clientName">Your Name</label>
+        <input type="text" class="form-control" id="clientName" name="clientName" placeholder="Enter your name">
+      </div>
+      <div class="form-group">
+        <label for="clientInquiry">Your Inquiry</label>
+        <textarea class="form-control" id="clientInquiry" name="clientInquiry" rows="3" placeholder="Type your inquiry here"></textarea>
+      </div>
+      <button type="submit" class="my-btn">Submit</button>
+    </form>
+  </div>
+  
+  <div class="container mt-5 bg-green-l">
+    <h2>Nuestra oficina</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d470059.7008379493!2d-0.24168187038135343!3d51.5285582!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x48761b87dc78b953%3A0x9c1ff3f3a5b1f865!2sLondon%2C%20UK!5e0!3m2!1sen!2suk!4v1603363442065!5m2!1sen!2suk" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+    <p class="text-center">
+        Teléfono: +54-9-555-55555
+      </p>
+      <p class="text-center">
+        Email: nerdelbaum.frink@gmail.com
+      </p>
+</div>
+  
+  {% endblock %}

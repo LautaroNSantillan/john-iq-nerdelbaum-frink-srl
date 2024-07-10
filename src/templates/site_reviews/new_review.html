@@ -1,0 +1,78 @@
+{% extends 'base.html' %} 
+{% block customcss %}  
+<link rel="stylesheet" href={{url_for('static',filename='css/misc.css')}} />
+{% endblock %}
+
+{% block title %} Create Review {% endblock %}
+{% block body %}
+{% with messages = get_flashed_messages(with_categories=True) %}
+    {% if messages %}
+        {% for category, message in messages %}
+            {% if category == 'error' %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'error',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% else %}
+                <script>
+                    Swal.fire({
+                        position: 'center',
+                        icon: 'success',
+                        text: "{{message}}",
+                        showConfirmButton: true,
+                        timer: 5000
+                    })
+                </script>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endwith  %}
+<div class="container">
+<h1>Submit Your Review</h1>
+        {% if review %}
+            <div class="alert alert-info">
+                <strong>Your Current Review:</strong>
+                <p>Rating: {{ review.rating }}/5</p>
+                <p>Comment: {{ review.review_text }}</p>
+                <button class="my-btn">
+                    <a href="{{ url_for('update_review') }}" class="text-white">EDITAR</a>
+                </button>
+                <form method="POST" action="{{ url_for('delete_review') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+                    <input type="hidden" name="review_id" value="{{ review.review_id }}">
+                    <button type="submit" class="btn btn-danger">BORRAR</button>
+                </form>
+                
+            </div>
+        
+            {%else %}
+
+<form action="/submit_review" method="post">
+    <input type="hidden" name="csrf_token" value="{{csrf_token()}}">
+  <div class="form-group">
+      <label for="rating">Rating</label>
+      <select class="form-control" id="rating" name="rating">
+          <option>1</option>
+          <option>2</option>
+          <option>3</option>
+          <option>4</option>
+          <option>5</option>
+      </select>
+  </div>
+
+  <div class="form-group">
+      <label for="comment">Comment</label>
+      <textarea class="form-control" id="comment" name="comment" rows="3"></textarea>
+  </div>
+
+  <button type="submit" class="my-btn">Submit</button>
+</form>
+</div>
+{% endif %}
+
+{% endblock %}

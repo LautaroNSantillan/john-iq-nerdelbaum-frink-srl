@@ -1,0 +1,42 @@
+{% extends 'base.html' %} 
+
+{% block customcss %}  
+<link rel="stylesheet" href={{url_for('static',filename='css/profile.css')}} />
+{% endblock %}
+{% block title %} Create Review {% endblock %}
+{% block body %}
+
+<div class="container mt-4 mb-4 p-3 d-flex justify-content-center">
+    <div class="card p-4">
+        <div class="image d-flex flex-column justify-content-center align-items-center">
+            <button class="btn btn-secondary">
+                <img src="https://static.vecteezy.com/system/resources/thumbnails/018/742/015/small_2x/minimal-profile-account-symbol-user-interface-theme-3d-icon-rendering-illustration-isolated-in-transparent-background-png.png" height="100" width="100" />
+            </button>
+            <span class="name mt-3">{{user.fullname}}</span>
+            <span class="idd">@{{user.username}}</span>
+            <div class="d-flex flex-row justify-content-center align-items-center gap-2">
+                <span><i class="fa fa-copy"></i></span>
+            </div>
+            
+            {% if review %}
+            <div class="mt-4">
+                <h5>Review</h5>
+                <p class="text-muted">Rating: <span class="badge badge-secondary text-muted">{{ review.rating }}/5</span></p>
+                <blockquote class="blockquote">
+                    <p class="mb-0 fst-italic">"{{ review.review_text }}"</p>
+                </blockquote>
+            </div>
+            <div class="mt-4">
+                <p class="text-muted">Se unió el {{ user.joined_date}}</p>
+            </div>
+        {% else %}
+            <div class="mt-4">
+                <p class="text-muted">No dejó una reseña todavía.</p>
+            </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+
+
+{% endblock %}
