@@ -110,35 +110,44 @@ def submit_review():
             return redirect(url_for('review'))
 
 
-@app.route('/update_review', methods=['GET','POST'])
+@app.route('/update_review', methods=['GET', 'POST'])
 @login_required
 def update_review():
     if request.method == 'POST':
-
-        review_id = request.form.get('review_id')
+        review = ModelReview.get_review_by_user_id(db, current_user.id)
         new_review_text = request.form.get('new_comment')
         new_rating = request.form.get('new_rating')
-        
-        if ModelReview.update_review(db, review_id, new_review_text, new_rating):
-            flash('Review updated successfully', 'success')
+
+        if review:
+            success, message = ModelReview.update_review(db, review.review_id, new_review_text, new_rating)
+            if success:
+                flash(message, 'success')
+                return redirect(url_for('review'))
+            else:
+                flash(message, 'error')
+                review = ModelReview.get_review_by_user_id(db, current_user.id)
+                return render_template('site_reviews/update_review.html', review=review)
         else:
-            flash('Failed to update review', 'error')
+            flash("No review found for the current user.", 'error')
+            review = ModelReview.get_review_by_user_id(db, current_user.id)
+            return render_template('site_reviews/review.html')
+        
     else:
         review = ModelReview.get_review_by_user_id(db, current_user.id)
         return render_template('site_reviews/update_review.html', review=review)
 
 
 @app.route('/delete_review', methods=['POST'])
-@login_required
-def disable_review():
+@login_required  
+def delete_review():
     review_id = request.form.get('review_id')
-    
-    if ModelReview.disable_review(db, review_id):
-        flash('Review disabled successfully', 'success')
+    success, message = ModelReview.disable_review(db, review_id)
+    if success:
+        flash('Review disabled successfully.', 'success')
     else:
-        flash('Failed to disable review', 'error')
-    
+        flash(f'Error disabling review: {message}', 'error')
     return redirect(url_for('review'))
+
 #---------------------------PROFILE
 @app.route('/profile/<int:id>')
 def profile(id):
@@ -148,6 +157,24 @@ def profile(id):
         return render_template('profile/profile.html', fullname=user.fullname, username=user.username, review=review)
     else:
         return "User not found", 404
+    
+
+@app.route('/update_user', methods=['GET', 'POST'])
+@login_required
+def update_user():
+    if request.method == 'POST':
+        new_fullname = request.form.get('fullname')
+        new_username = request.form.get('username')
+
+        success, message = ModelUser.update_user_info(db, current_user.id, new_fullname, new_username)
+        
+        if success:
+            flash(message, 'success')
+            return redirect(url_for('profile/profile'))
+        else:
+            flash(message, 'error')
+    
+    return render_template('profile/update_user.html')
 #---------------------------ERROR HANDLERS
 def status_401(err):
     return redirect(url_for('login'))

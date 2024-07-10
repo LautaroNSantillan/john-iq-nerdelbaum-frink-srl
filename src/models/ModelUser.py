@@ -42,3 +42,44 @@ class ModelUser():
         except Exception as ex:
             print(ex)
             return False
+        
+    @classmethod
+    def update_user_info(cls, db, id, new_fullname=None, new_username=None):
+        try:
+            cursor = db.connection.cursor()
+            
+            # Check if the new username already exists
+            if new_username:
+                cursor.execute("SELECT * FROM user WHERE username = %s", (new_username,))
+                existing_user = cursor.fetchone()
+                if existing_user:
+                    return False, "Username already exists."
+
+            # Build the SQL update statement
+            sql = "UPDATE user SET "
+            updates = []
+            params = []
+
+            if new_fullname:
+                updates.append("fullname = %s")
+                params.append(new_fullname)
+            
+            if new_username:
+                updates.append("username = %s")
+                params.append(new_username)
+
+            if not updates:
+                return False, "No updates provided."
+
+            sql += ", ".join(updates)
+            sql += " WHERE id = %s"
+            params.append(id)
+
+            cursor.execute(sql, params)
+            db.connection.commit()
+            cursor.close()
+            return True, "User information updated successfully."
+        except Exception as ex:
+            print(f"Error updating user info: {ex}")
+            db.connection.rollback()
+            return False, str(ex)

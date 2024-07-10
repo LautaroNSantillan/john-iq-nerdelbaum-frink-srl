@@ -35,20 +35,22 @@ class ModelReview:
                 params.append(new_rating)
 
             if not updates:
-                return False
+                return False, "No updates provided."
 
             sql += ", ".join(updates)
             sql += " WHERE review_id = %s AND user_id = %s AND disabled = FALSE"
             params.extend([review_id, current_user.id])
 
+
             cursor.execute(sql, params)
             db.connection.commit()
             cursor.close()
-            return True
+            return True, "Review updated successfully."
         except Exception as ex:
             print(f"Error updating review: {ex}")
             db.connection.rollback()
-            return False
+            return False, f"Error updating review: {ex}"
+
 
         
     @classmethod
@@ -67,16 +69,19 @@ class ModelReview:
             return None
         
 
+    
     @classmethod
     def disable_review(cls, db, review_id):
         try:
             cursor = db.connection.cursor()
             sql = "UPDATE review SET disabled = TRUE WHERE review_id = %s AND user_id = %s"
-            cursor.execute(sql, (review_id, current_user.id))
+            params = (review_id, current_user.id)
+            
+            cursor.execute(sql, params)
             db.connection.commit()
             cursor.close()
-            return True
+            return True, "Review disabled successfully."
         except Exception as ex:
             print(f"Error disabling review: {ex}")
             db.connection.rollback()
-            return False
+            return False, f"Error disabling review: {ex}"
