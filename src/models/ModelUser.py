@@ -6,7 +6,7 @@ class ModelUser():
     def login(self, db, user):
         try:
             cursor=db.connection.cursor()
-            sql = "SELECT id, username, password, fullname FROM User WHERE username = %s"
+            sql = "SELECT id, username, password, fullname FROM user WHERE username = %s"
             cursor.execute(sql, (user.username,))
             row=cursor.fetchone()
             if row != None:
@@ -35,7 +35,7 @@ class ModelUser():
     def get_by_username(self, db, username):
         try:
             cursor=db.connection.cursor()
-            sql = "SELECT id, username, fullname, joined_date FROM User WHERE username = %s"
+            sql = "SELECT id, username, fullname, joined_date FROM user WHERE username = %s"
             cursor.execute(sql, (username,))
             row=cursor.fetchone()
             if row != None:

@@ -36,7 +36,8 @@
     <div class="row align-items-center d-flex justify-content-center">
       <div class="bg-verde-2 col-sm-12 col-lg-8 border border-light">
         <p class="txt-crema-1">
-          <strong class="display-1 p-3 playfair">Bienvenidos a</strong>
+             
+          <strong class="display-1 p-3 playfair">Bienvenidos a {{is_logged}}</strong>
           
             <div class="container-glitch">
               <span class="glitch jersey-25-regular" aria-hidden="true">John I.Q. Nerdelbaum Frink</span>
@@ -133,10 +134,10 @@
   <div class="row">
       {% for company in companies %}
       <div class="col-md-4 mb-4">
-          <div class="card">
+          <div class="card bg-dark border-primary">
               <img src="{{company.img}}" class="card-img-top" alt="{{ company.name }}">
-              <div class="card-body">
-                  <h4 class="card-title">{{ company.name }}</h4>
+              <div class="card-body text-success">
+                  <h4 class="card-title text-white">{{ company.name }}</h4>
                   <div class="embed-responsive embed-responsive-16by9">
                       <iframe class="embed-responsive-item" src="{{ company.location }}" allowfullscreen></iframe>
                   </div>
