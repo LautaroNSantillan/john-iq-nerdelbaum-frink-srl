@@ -23,7 +23,7 @@ login_manager_app=LoginManager(app)
 def load_user(id):
     return ModelUser.get_by_id(db, id)
 
-csrf = CSRFProtect()
+csrf = CSRFProtect(app)
 db = MySQL(app)
 
 @app.context_processor
@@ -224,6 +224,16 @@ def update_user():
 #---------------------------CONTACT
 @app.route('/contact', methods=['GET', 'POST'])
 def contact():
+    if request.method == 'POST':
+        clientName = request.form.get('clientName')
+        clientInquiry = request.form.get('clientInquiry')
+        clientSpecies = request.form.get('clientSpecies')
+        if len(clientName) == 0 or len(clientInquiry) == 0 or clientSpecies is None:
+                flash("Por favor complete los campos Nombre, Consulta y Especie", 'error')
+                return render_template('contact/contact.html')
+        else:
+             flash("Recibimos su consulta!", 'success')
+             return render_template('contact/contact.html')
     return render_template('contact/contact.html')
 #---------------------------ERROR HANDLERS
 def status_401(err):
@@ -233,9 +243,10 @@ def status_404(err):
     return redirect(url_for('index'))
 
 
+
 if __name__ == '__main__':
     app.config.from_object(config['development'])
     csrf.init_app(app)
     app.register_error_handler(401, status_401)
     app.register_error_handler(404, status_404)
-    app.run()
+    app.run(debug=True)
